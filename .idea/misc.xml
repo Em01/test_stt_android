@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_mic.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_mic_off.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1157548125633232" />
         <entry key="app/src/main/res/layout/google_assistant_main_activity_example.xml" value="0.2421875" />
       </map>
