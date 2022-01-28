@@ -2,11 +2,17 @@ package com.emma.testtts
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.SpeechRecognizer
+
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
+import android.util.Log
+import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -14,9 +20,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class GoogleAssistantMainActivityExample : AppCompatActivity() {
     lateinit var btn_stt : Button
     lateinit var et_text_input : EditText
+    private var speechRecognizer: SpeechRecognizer? = null
 
 
     //The intent holds the recognized text
@@ -26,17 +33,21 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
+        speechRecognizer?.setRecognitionListener(listener)
+
         setContentView(R.layout.activity_main)
         btn_stt = findViewById(R.id.btn_stt)
-
 
         btn_stt.setOnClickListener {
             val sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             //use the langauge model to define the purpose.
             sttIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+
             //Any langauge can be used from the locale class.
             sttIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             sttIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something now!")
+            speechRecognizer?.startListening(sttIntent)
 
             try {
                 getResult.launch(sttIntent)
@@ -45,6 +56,40 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
                 Toast.makeText(this, "Device does not support stt.", Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    private var listener:RecognitionListener = object: RecognitionListener{
+
+
+        override fun onBeginningOfSpeech() {
+        }
+
+        override fun onPartialResults(partialResults: Bundle?) {
+
+        }
+
+        override fun onResults(results: Bundle?) {
+
+        }
+
+        override fun onEvent(eventType: Int, params: Bundle?) {
+
+        }
+
+        override fun onEndOfSpeech() {
+        }
+
+        override fun onError(error: Int) {
+        }
+
+        override fun onBufferReceived(buffer: ByteArray?) {
+        }
+
+        override fun onReadyForSpeech(params: Bundle?) {
+        }
+
+        override fun onRmsChanged(rmsdB: Float) {
         }
     }
 
